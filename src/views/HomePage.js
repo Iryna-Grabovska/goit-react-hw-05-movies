@@ -8,6 +8,7 @@ function HomePage() {
   const [movies, setMovies] = useState(null);
   // const moviePoster = {};
   // const onGalleryCardClick = {};
+  // const { match } = useMatch();
   useEffect(() => {
     movieApi.fetchTrendingMovies().then(data => setMovies(data.results));
   }, []);
@@ -16,20 +17,16 @@ function HomePage() {
     <div>
       <h1>Trending movies</h1>
 
-      {/* <MoviesGallery
-        moviePoster={moviePoster}
-        onPosterClick={onGalleryCardClick}
-      /> */}
-
       {movies && (
         <ul>
           {movies.map(movie => (
             <li key={movie.id}>
-              <Link to={movie}>
-                {/* <img src={movie.backdrop_path} alt={movie.title} /> */}
-                <p> {movie.title}</p>
-                {/* <p>{movie.popularity}</p> */}
-                {/* <img src={movie.backdrop_path}/> */}
+              <Link to={`/movies/${movie.id}`}>
+                <img
+                  src={`https://image.tmdb.org/t/p/w342/${movie.poster_path}`}
+                  alt={movie.title || movie.name}
+                ></img>
+                <p> {movie.title || movie.name}</p>
               </Link>
             </li>
           ))}

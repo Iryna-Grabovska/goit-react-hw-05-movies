@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Header } from 'components/Header/Header';
 import { HomePage } from './views/HomePage';
 import { MoviesPage } from 'views/MoviesPage';
+import { MovieDetailsPage } from 'views/MovieDetailsPage';
 // import { NotFounView } from 'views/notFoundView';
 // import './App.css';
 function App() {
@@ -12,7 +13,8 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="movies" element={<MoviesPage />} />
-        {/* <Route path="/moviespage" element={<NotFounView />} /> */}
+        <Route path="movies/:movieId/*" element={<MovieDetailsPage />} />
+        {/* <Route path="*" element={<NotFounView />} /> */}
       </Routes>
     </>
   );
