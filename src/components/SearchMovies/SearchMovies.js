@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import s from './SearchMovies.module.css';
+
 function SearchMovies({ onSubmit }) {
   const [query, setQuery] = useState('');
   const handleQueryChange = event => {
@@ -15,15 +17,16 @@ function SearchMovies({ onSubmit }) {
   };
   return (
     <div>
-      <form onSubmit={handleQuerySubmit}>
+      <form className={s.form} onSubmit={handleQuerySubmit}>
         <input
+          className={s.input}
           type="text"
           name="query"
           value={query}
           onChange={handleQueryChange}
           placeholder="Search movies"
         />
-        <button type="submit">
+        <button className={s.btnSearch} type="submit">
           <span>Search</span>
         </button>
       </form>

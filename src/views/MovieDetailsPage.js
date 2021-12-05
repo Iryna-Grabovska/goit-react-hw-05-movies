@@ -1,4 +1,4 @@
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, NavLink } from 'react-router-dom';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 // import slugify from 'slugify';
@@ -8,12 +8,12 @@ import { Reviews } from 'components/Reviews/Reviews';
 
 function MovieDetailsPage() {
   const location = useLocation();
-  console.log(location);
-  const history = useNavigate();
+
+  const navigate = useNavigate();
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const goBackBtn = () => {
-    history.push(
+    navigate(
       location?.state?.from,
       // ?? '/',
       // location.state?.from?.pathname
@@ -28,38 +28,64 @@ function MovieDetailsPage() {
     <div>
       {movie && (
         <>
-          <button type="button" onClick={goBackBtn}>
-            go back
+          <button className="btnGoBack" type="button" onClick={goBackBtn}>
+            Go Back
           </button>
-
-          <img
-            src={`https://image.tmdb.org/t/p/w342/${movie.poster_path}`}
-            alt={movie.title || movie.name}
-          ></img>
-          <h2>{movie.title}</h2>
-          <p>
-            release date:
-            <span> {movie.release_date}</span>
-          </p>
-          <p>genres: {movie.genres.map(genre => genre.name)}</p>
-          <p>Overview: {movie.overview}</p>
-          <p>Rating:{movie.vote_average}</p>
-          <Link
-            to={`/movies/${movieId}/cast`}
-            state={{
-              from: location.from,
-            }}
-          >
-            cast
-          </Link>
-          <Link
-            to={`/movies/${movieId}/reviews`}
-            state={{
-              from: location.from,
-            }}
-          >
-            reviews
-          </Link>
+          <div className="MovieDetails">
+            <div>
+              <img
+                src={`https://image.tmdb.org/t/p/w342/${movie.poster_path}`}
+                alt={movie.title || movie.name}
+              ></img>
+            </div>
+            <div className="MovieDescription">
+              <h2 style={{ color: 'rgb(52, 52, 109)' }}>{movie.title}</h2>
+              <p className="description">
+                Release Date:
+                <span className="descriptionSpan"> {movie.release_date}</span>
+              </p>
+              <p className="description">
+                Genres:
+                <span className="descriptionSpan">
+                  {movie.genres.map(genre => genre.name)}
+                </span>
+              </p>
+              <p className="description">
+                Overview:
+                <span className="descriptionSpan">{movie.overview} </span>
+              </p>
+              <p className="description">
+                Rating:
+                <span className="descriptionSpan">{movie.vote_average}</span>
+              </p>
+            </div>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <NavLink
+              className="cast"
+              style={({ isActive }) => ({
+                color: isActive ? 'blue' : 'black',
+              })}
+              to={`/movies/${movieId}/cast`}
+              state={{
+                from: location.from?.location,
+              }}
+            >
+              Cast
+            </NavLink>
+            <NavLink
+              className="cast"
+              style={({ isActive }) => ({
+                color: isActive ? 'blue' : 'black',
+              })}
+              to={`/movies/${movieId}/reviews`}
+              state={{
+                from: location.from,
+              }}
+            >
+              Reviews
+            </NavLink>
+          </div>
 
           <Routes>
             <Route path="cast" element={<Cast />} />
@@ -70,4 +96,4 @@ function MovieDetailsPage() {
     </div>
   );
 }
-export { MovieDetailsPage };
+export default MovieDetailsPage;

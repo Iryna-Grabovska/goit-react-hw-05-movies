@@ -1,10 +1,11 @@
 import { SearchMovies } from 'components/SearchMovies/SearchMovies';
-import { useState, useEffect, useLocation } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import * as movieApi from 'services/movieApi';
+import './Movie.scss';
 
 function MoviesPage() {
-  // const location = useLocation();
+  const location = useLocation();
 
   const [query, setQuery] = useState('');
   const [movies, setMovies] = useState([]);
@@ -19,18 +20,19 @@ function MoviesPage() {
   const onSubmit = query => {
     setQuery(query);
   };
+  // if (movies.length === 0) {
+  //   return <p>sorry</p>;
+  // }
   return (
     <div>
       <SearchMovies onSubmit={onSubmit} />
       <>
-        <ul>
+        <ul className="ImageGallery">
           {movies.map(({ id, title, poster_path, name }) => (
-            <li key={id}>
-              <Link
-                to={`${id}`}
-                // state={{ from: location }}
-              >
+            <li key={id} className="ImageGalleryItem">
+              <Link to={`${id}`} state={{ from: location }}>
                 <img
+                  className="ImageGalleryItemImage"
                   src={`https://image.tmdb.org/t/p/w342/${poster_path}`}
                   alt={title || name}
                 ></img>
@@ -43,4 +45,4 @@ function MoviesPage() {
     </div>
   );
 }
-export { MoviesPage };
+export default MoviesPage;

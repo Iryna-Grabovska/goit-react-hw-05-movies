@@ -1,30 +1,27 @@
-import React from 'react';
+import { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Header } from 'components/Header/Header';
-import { HomePage } from './views/HomePage';
-import { MoviesPage } from 'views/MoviesPage';
-import { MovieDetailsPage } from 'views/MovieDetailsPage';
 // import { NotFounView } from 'views/notFoundView';
-// import './App.css';
+import { Loading } from 'components/Loader/Loader.js';
+
+const HomePage = lazy(() => import('./views/HomePage'));
+const MoviesPage = lazy(() => import('./views/MoviesPage'));
+const MovieDetailsPage = lazy(() => import('./views/MovieDetailsPage'));
+
 function App() {
   return (
     <>
       <Header />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="movies" element={<MoviesPage />} />
-        <Route path="movies/:movieId/*" element={<MovieDetailsPage />} />
-        {/* <Route path="*" element={<NotFounView />} /> */}
-      </Routes>
+      <Suspense fallback={<Loading />}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="movies" element={<MoviesPage />} />
+          <Route path="movies/:movieId/*" element={<MovieDetailsPage />} />
+          {/* <Route path="*" element={<NotFounView />} /> */}
+        </Routes>
+      </Suspense>
     </>
   );
 }
 
 export default App;
-
-// export default App;
-// '/' - компонент <HomePage>, домашняя страница со списком популярных кинофильмов.
-// '/movies' - компонент <MoviesPage>, страница поиска фильмов по ключевому слову.
-// '/movies/:movieId' - компонент <MovieDetailsPage>, страница с детальной информацией о кинофильме.
-// /movies/:movieId/cast - компонент <Cast>, информация о актерском составе. Рендерится на странице <MovieDetailsPage>.
-// /movies/:movieId/reviews - компонент <Reviews>, информация об обзорах. Рендерится на странице <MovieDetailsPage>.
